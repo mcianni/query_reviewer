@@ -41,6 +41,7 @@ module QueryReviewer
     end
     
     def find_or_create_sql_query(sql, cols, run_time, profile, command, affected_rows)
+      sql = sql.instance_of?(Arel::UpdateManager) ? sql.to_sql : sql
       sanitized_sql = SqlQuery.sanitize_strings_and_numbers_from_sql(sql)
       trace = SqlQuery.generate_full_trace(Kernel.caller)
       key = [sanitized_sql, trace]
